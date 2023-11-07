@@ -1,0 +1,9 @@
+listvaccine(A,v,n){
+	for(i=0;i<n;i++){
+		if(!strcmp(A[i],v){
+			put A[i] in file
+		}
+		else putA[i] = NULL in file
+
+}
+}

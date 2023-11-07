@@ -1,0 +1,192 @@
+use warnings;
+use strict;
+=star #password question
+open(my $FH,"<","password.txt");
+my $n = <$FH>;
+chomp $n;
+open (my $fh, ">", "strong_pass.txt");
+for(my $i = 0;$i<$n;$i++){
+	my $pass = <$FH>;
+	chomp $pass;
+	my @arr = split("",$pass);
+	my $size = scalar(@arr);
+	if($size < 8){
+		print $fh "password is not strong as length is less than 8\n";
+	}else{
+		my $score = 0;
+		my $f1 = 0;
+		my $f2 = 0;
+		my $f3 = 0;
+		my $f4 = 0;
+
+		my $upper_case_letters = $pass =~ tr/A-Z//;
+		my $lower_case_letters = $pass =~ tr/a-z//;
+		my $numeric_case_letters = $pass =~ tr/0-9//;
+		my $special_case_letters = $pass =~ tr/["#,!,%,@,$"]//;
+
+		if($upper_case_letters ne 0){
+			$f1 = 1;
+			$score = $score + 2*($upper_case_letters);
+		}
+		if($lower_case_letters ne 0){
+			$f2 = 1;
+			$score = $score + 1*($lower_case_letters);
+		}
+		if($numeric_case_letters ne 0){
+			$f3 = 1;
+			$score = $score + 2*($numeric_case_letters);
+		}
+		if($special_case_letters ne 0){
+			$f4 = 1;
+			$score = $score + 3*($special_case_letters);
+		}
+		if($f1 && $f2 && $f3 && $f4 && $score ge 16){
+			print $fh "Strong Password		score: $score\n";
+		}else{
+			print $fh "Password is not strong		score: $score\n";
+		}
+		
+	}
+}
+
+close($fh);
+=cut
+--------------------------------xxxxxxxxxx-------------
+
+=star #sort array lab eval
+print "Enter String Size:\n";
+$n = <STDIN>;
+my @arr;
+while (@arr < $n){
+	my $num = <STDIN>;
+	chomp $num;
+	push @arr, $num;
+}
+
+my @res = sort(@arr);
+print "@res\n";
+
+$ct = 0;
+for($i=0; $i<$n;$i++){
+	if($arr[$i] eq $res[$i]){
+		$ct++;
+	}
+}
+@new_res = lc("@arr");
+print "$ct\n";
+print "@new_res";
+
+open (fh, ">", "output.txt");
+print fh "@res\n";
+print fh "$ct\n";
+print fh "@new_res\n";
+
+close(fh) or "Couldn't close the file"; 
+=cut
+
+-----------------------xxxxxxxxxxxxxxxxxxxxx-------------
+
+=star #1 question 
+my @arr = ("Snickers", "Boots", "Charlie", "Belle", "Panda", "Lola", "Sassy");
+my $x = <STDIN>;
+my $n = scalar(@arr);
+while($x<$n+1){
+	print("$arr[$x-1]\n");
+	$x = <STDIN>;
+}
+=cut
+
+----------------xxxxxxxxxxxxxxxxxxx------------------------
+
+=star #2 question (similarity between strings)
+print "Enter a string:";
+my $str = <STDIN>;
+chomp $str;
+my @arr = split(//,$str);
+#print "@arr";
+
+my $total = 0;
+my $n = scalar(@arr);
+#print "$n";
+for(my $i = 1; $i < $n; $i++) {
+        my $count = 0;
+        for (my $j = $i; $j< $n; $j++){
+			my $x = $j-$i;
+            if($arr[$x] ne $arr[$j]){
+                last;
+            }
+            $count++;
+        }
+		#print "$count";
+        $total = $total + $count;
+}
+
+$total = $total + $n;
+
+print "$total";
+=cut
+
+------------------------------xxxxxxxxxxxxxxxxxx------------------
+
+=star #palindrome
+print "Enter string to check for palindrome:\n";
+my $str = <STDIN>;
+chomp $str;
+$str =~ s/ //g;
+$str =~ s/["#,!,%,@,\,,',."]//g;
+
+my $res = scalar reverse("$str");
+
+my $c = $str eq $res;
+
+if($c == 1){
+	print "YES";
+}else{
+	print "NO";
+}
+=cut
+---------------------------------xxxxxxxxxxxxxxxxxxxxx-------------
+
+=star #Euclid's algorithm
+print "Enter a and b respectively:";
+my $a = <STDIN>;
+my $b = <STDIN>;
+chomp $a;
+chomp $b;
+my $q = int($a/$b);
+my $r = $a%$b;
+print "$q $r";
+=cut
+---------------------------------xxxxxxxxxxxxxxxxx---------------------
+=star #subsequence #second string can be obtained from first string
+open (my $fh, "<", "input.txt");
+while(my $line = <$fh>){
+    chomp $line;
+    my @linearray = split(" ", $line);
+    my $y = $linearray[0];
+	my $x = $linearray[1];
+	$x=~s//.*/g;
+	my $res = ($y=~$x);
+	if($res eq 1){
+		print "YES\n";
+	}else{
+		print "NO\n";
+	}
+}
+=cut
+---------------------------xxxxxxxxxxxxxxxxxxxx--------------
+=star   #command-line argument
+#!/usr/bin/perl -w  
+# (1) check for the number of command-line arguments entered  
+$number_args = $#ARGV + 1;  
+if ($number_args != 2) {  
+    print "Wrong entry. Please enter your full name.\n";  
+    exit;  
+}  
+# (2) if two command line arguments received,  
+$firstName=$ARGV[0];  
+$lastName=$ARGV[1];  
+print "Welcome $firstName $lastName at JavaTpoint.\n";  
+
+=cut
+--------------------------------xxxxxxxxxxxxxxxxxxx---------------

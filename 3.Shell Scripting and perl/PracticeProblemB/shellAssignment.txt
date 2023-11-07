@@ -1,0 +1,174 @@
+#question 1
+
+echo "Enter the list of strings:"
+index=0
+#enter strings separated by space
+read list
+echo "${list[@]}"
+
+for str in ${list[@]}
+do
+    reversed_string=""
+    # finding the length of string
+    len=${#str}
+    # traverse the string in reverse order.
+    for (( i=$len-1; i>=0; i-- ))
+        do
+            reversed_string="$reversed_string${str:$i:1}" #concatenation
+        done
+    listA[$index]=$reversed_string
+    index=`expr $index + 1`
+done
+for ((i=0;i<$index;i++))
+do
+listRev[$i]=${listA[$index - $i -1]}
+done    
+echo "${listA[@]}"
+echo "After reverse"
+echo "${listRev[@]}"
+
+#question 2
+
+df -h --output=source,avail
+
+#question 3
+
+#!/bin/bash
+
+arr_csv=() 
+while IFS= read -r line 
+do
+    arr_csv+=("$line")
+done < Student_marks.csv
+
+index=0
+noofcol=0
+noofdeformedrows=0
+noofrows=0
+for record in "${arr_csv[@]}"
+do
+   IFS=','
+   # no of columns
+   read -ra arr <<< "$record"
+
+   if [ $noofcol == 0 ]
+   then
+      noofcol=${#arr[@]}
+      continue
+   fi
+
+
+   if [ $noofcol -ne 0 -a $noofrows -eq 0 -a $index -eq `expr ${#arr_csv[@]} - 2` ]
+   then
+      if [ $index == ${arr[1]} ]
+      then
+         noofrows=$index
+         continue
+      fi   
+   fi
+
+   if [ ${#arr[@]} != $noofcol ]
+   then
+      noofdeformedrows=`expr $noofdeformedrows + 1`
+      echo `expr $index + 1`
+   fi
+
+   ((index++))
+done
+
+echo $noofcol
+echo $noofdeformedrows
+echo $noofrows
+
+#question 4
+
+#!/bin/bash
+case $1 in
+"-p")
+	echo "----------------------------"
+
+	ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
+
+	echo "----------------------------"
+
+;;
+
+"-m")
+	echo "----------------------------"
+
+	df -h --output=source,target
+
+	echo "----------------------------"
+
+;;
+
+"-f")
+	#files created in last 1hr
+	echo "----------------------------"
+
+	find ./ -cmin -60 -type f | sort -rh | head -5
+
+	echo "----------------------------"
+
+;;
+
+*)
+
+	#Disks whose mem use >=30
+
+	df -h | awk '{ if ($5 >= 30) { print $5 , $1} }'
+
+;;
+esac
+
+#question 5
+
+#!/bin/bash
+j=0
+re='^[+-]?[0-9]+?$'
+
+for i in $@
+do
+	if ! [[ $i =~ $re ]]
+		then
+   			echo "error: Not a number" >&2; exit 1
+	fi
+	array[$j]=$i
+	j=`expr $j + 1`
+done
+
+echo "no of elements: $#"
+
+
+#logic for sorting--bubble sorting used
+
+for ((i=0;i<$#;i++))
+do
+	for ((j=$i+1;j<$#;j++))
+	do
+		if [ ${array[$i]} -gt ${array[$j]} ]
+			then
+				temp=${array[$j]}
+				array[$j]=${array[$i]} 
+				array[$i]=$temp
+		fi
+	done
+done
+
+echo ${array[@]}
+
+#question 6
+
+#!/bin/bash
+echo "Enter file extension: "
+read ext
+
+echo "Enter file name: "
+read fname
+
+echo "Enter new file prefix name: "
+read prefix
+
+mv  $fname.$ext $prefix$fname.$ext
+
+echo $fname.$ext $prefix$fname.$ext
